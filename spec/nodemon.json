@@ -1,9 +1,0 @@
-{
-  "watch": ["spec"],
-  "ext": "spec.ts",
-  "ignore": ["spec/support"],
-  "exec": "ts-node -r tsconfig-paths/register ./spec",
-  "exec1": "ts-node -r tsconfig-paths/register ./spec",
-  "exec2": "nodemon --ext ts --exec 'jasmine-ts  --config=./spec/support/jasmine.json'",
-  "exec3": "nodemon --ext ts --exec 'jasmine-ts \"src/**/*.spec.ts\"'"
-}

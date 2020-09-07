@@ -10,23 +10,42 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var decorators_1 = require("./decorators");
-function logger(req, res, next) {
-    console.log('Request has been made');
-    next();
+function requireAuth(req, res, next) {
+    if (req.session && req.session.loggedIn) {
+        next();
+        return;
+    }
+    res.status(403);
+    res.send('Not permitted');
 }
 var RootController = /** @class */ (function () {
     function RootController() {
     }
     RootController.prototype.getRoot = function (req, res) {
-        res.send("\n            <div>\n            <div>Welcome to a very Popular Game</div>\n            <a href=\"/game/board\">Start Game</a>\n            <div>brought to you by Everreal</div>\n            </div>\n            ");
+        //res.send(`<h1>Welcome</h1>`);
+        if (req.session && req.session.loggedIn) {
+            res.send("\n            <div>\n            <div>You are logged in </div>\n            <a href=\"/auth/logout\">Logout</a>\n            </div>\n            ");
+        }
+        else {
+            res.send("\n            <div>\n            <div>You are NOT logged in </div>\n            <a href=\"/auth/login\">Log In</a>\n            </div>\n            ");
+        }
+    };
+    RootController.prototype.getProtected = function (req, res) {
+        res.send('Welcome to Protected Page, ');
     };
     __decorate([
         decorators_1.get('/'),
-        decorators_1.use(logger),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", [Object, Object]),
         __metadata("design:returntype", void 0)
     ], RootController.prototype, "getRoot", null);
+    __decorate([
+        decorators_1.get('/protected'),
+        decorators_1.use(requireAuth),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object, Object]),
+        __metadata("design:returntype", void 0)
+    ], RootController.prototype, "getProtected", null);
     RootController = __decorate([
         decorators_1.controller('')
     ], RootController);
