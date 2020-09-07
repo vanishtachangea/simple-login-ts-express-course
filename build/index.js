@@ -9,10 +9,13 @@ var cookie_session_1 = __importDefault(require("cookie-session"));
 var AppRouter_1 = require("./AppRouter");
 require("./controllers/LoginController");
 require("./controllers/RootController");
+require("./controllers/GameController");
+var path = require('path');
 var app = express_1.default();
 app.use(body_parser_1.default.urlencoded({ extended: true }));
 app.use(cookie_session_1.default({ keys: ['log'] }));
 app.use(AppRouter_1.AppRouter.getInstance());
+app.use('/css', express_1.default.static(path.join(__dirname, 'public/css')));
 app.listen(3000, function () {
     console.log('Listening on port 3000');
 });
